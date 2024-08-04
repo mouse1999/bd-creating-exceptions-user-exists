@@ -20,6 +20,11 @@ public class UserManager {
      * @return whether email is being used
      */
     public boolean isEmailInUse(String email) {
+        for(User user : userList) {
+            if (user.getEmail().equals(email)) {
+                return true;
+            }
+        }
         return false;
     }
 
@@ -28,12 +33,14 @@ public class UserManager {
      * @param user - User to be created
      * @return successfully created user
      */
-    public User createUser(User user) {
+    public User createUser(User user) throws UserExistsException {
 
         // PARTICIPANTS: Update this method to throw your new exception if the email is already in use.
 
         if (!(isEmailInUse(user.getEmail()))) {
             userList.add(user);
+        } else {
+            throw new UserExistsException("User already exist");
         }
 
         return user;
